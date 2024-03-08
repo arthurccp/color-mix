@@ -21,6 +21,7 @@ class ViewController: UIViewController {
     
     // Variável para armazenar a cor atual
     var currentColor: UIColor?
+    var savedColors: [UIColor] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,12 +50,25 @@ class ViewController: UIViewController {
         self.present(secondVC, animated: true, completion: nil)
     }
     
+    @IBAction func tableViewColorsTapped(_ sender: Any) {
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowColorsSegue" {
+            if let colorsVC = segue.destination as? ColorsViewController {
+                colorsVC.savedColors = savedColors // Passa as cores salvas para a ColorsViewController
+            }
+        }
+    }
+    
+    
     @IBAction func saveColorAction(_ sender: Any) {
         guard let currentColor = colorView.backgroundColor else {
             return
         }
         // Salvar a cor atual na variável
         self.currentColor = currentColor
+        savedColors.append(currentColor)
     }
     
     func updateColor() {
